@@ -1,0 +1,182 @@
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="companyName.js"></script>
+    <script>
+      $(document).ready(function() {
+        formAnswers = [0, 0, 0, 0];
+        var x = 28000 + Math.floor(Math.random() * 4000);
+        formVariables = {
+          materials: 400,
+          time: Math.floor(3 + Math.random() * 4),
+          rate: 20,
+          fixed: 1500000,
+          q: 15000,
+          q1: 650,
+          q2: 1500000 + x,
+          q3: 25,
+          q4: 15000 + Math.floor(Math.random() * 20000),
+          q4_1: 70000
+        };
+        (function() {
+          var w =
+            formVariables.time * formVariables.rate + formVariables.materials;
+          var q = formVariables.q;
+          var f = formVariables.fixed;
+          var p = formVariables.q1;
+          formAnswers[0] = p * q - (f + w * q);
+        })();
+        (function() {
+          var w =
+            formVariables.time * formVariables.rate + formVariables.materials;
+          var q = formVariables.q;
+          var f = formVariables.q2;
+          var p = formVariables.q1;
+          formAnswers[1] = p * q - (f + w * q);
+        })();
+        (function() {
+          var w =
+            formVariables.time * formVariables.q3 + formVariables.materials;
+          var q = formVariables.q;
+          var f = formVariables.q2;
+          var p = formVariables.q1;
+          formAnswers[2] = p * q - (f + w * q);
+        })();
+        (function() {
+          var w =
+            formVariables.time * formVariables.q3 + formVariables.materials;
+          var q = formVariables.q4;
+          var f = formVariables.q2 + formVariables.q4_1;
+          var p = formVariables.q1;
+          formAnswers[3] = p * q - (f + w * q);
+        })();
+        (function() {
+          $("#intro").append("Suppose a company sells " + getCompanyName());
+          var introInfo =
+            "The required materials total £" +
+            String(formVariables.materials) +
+            ".<br>The labour is " +
+            String(formVariables.time) +
+            " hours at £" +
+            String(formVariables.rate) +
+            " per hour.<br>The fixed cost is £ " +
+            String(formVariables.fixed);
+          $("#intro-info").append(introInfo);
+          $("#q1").append("£" + String(formVariables.q1) + "?");
+          $("#q2").append(
+            "Question 2: If the fixed costs increase to £" +
+              String(formVariables.q2) +
+              " what is the profit now?"
+          );
+          $("#q3").append(
+            "Question 3: If labour costs then also increase to £" +
+              String(formVariables.q3) +
+              "  per hour, what is the new break-even point?"
+          );
+          $("#q4").append(
+            "Question 4: Marketing claim that a £" +
+              String(formVariables.q4_1) +
+              " advertising campaign will boost sales to " +
+              String(formVariables.q4) +
+              ". Is this worthwhile? When does it break even?"
+          );
+        })();
+
+        $("button").click(function() {
+          var allCorrect = 0;
+          var answers = $("form").serializeArray();
+          if (String(answers[0].value) == formAnswers[0]) {
+            console.log("q1 correct");
+            $("input[name='q1']").css("background-color", "green");
+            allCorrect++;
+          } else {
+            console.log(answers[0].value);
+            $("input[name='q1']").css("background-color", "red");
+          }
+          if (String(answers[1].value) == formAnswers[1]) {
+            console.log("q2 correct");
+            $("input[name='q2']").css("background-color", "green");
+            allCorrect++;
+          } else {
+            console.log(answers[1].value);
+            $("input[name='q2']").css("background-color", "red");
+          }
+          if (String(answers[2].value) == formAnswers[2]) {
+            console.log("q3 correct");
+            $("input[name='q3']").css("background-color", "green");
+            allCorrect++;
+          } else {
+            console.log(answers[3].value);
+            $("input[name='q3']").css("background-color", "red");
+          }
+          if (String(answers[3].value) == formAnswers[3]) {
+            console.log("q4 correct");
+            $("input[name='q4']").css("background-color", "green");
+            allCorrect++;
+          } else {
+            console.log(answers[3].value);
+            $("input[name='q4']").css("background-color", "red");
+          }
+          if (allCorrect === 0)
+            $("#feedback").text(function() {
+              alert("Yay hit refresh for another question");
+              return "All correct!!!";
+            });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="body">
+      <div id="intro-section">
+        <h2 class="text" id="intro"></h2>
+        <h3 class="text" id="intro-info"></h3>
+      </div>
+      <div id="answer-section">
+        <form>
+          <p id="q1" class="question">
+            Question 1: How much profit is made if the market supports a price p
+            =
+          </p>
+          <input type="text" name="q1" /><br />
+          <p id="q2" class="question"></p>
+          <input type="text" name="q2" /><br />
+          <p id="q3" class="question"></p>
+          <input type="text" name="q3" /><br />
+          <p id="q4" class="question"></p>
+          <input type="text" name="q4" /><br />
+        </form>
+        <button id="submit">Submit</button>
+        <p id="feedback"></p>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script></script>
+
+<style>
+  input {
+    padding: 10px;
+  }
+  input[type="text"] {
+    margin: 10 0 10 0;
+    border: 1px solid black;
+    background-color: #ffeef0;
+  }
+  .question {
+    margin: 0 0 0 0;
+  }
+  #body {
+    margin: 5%;
+    padding: 20px;
+    height: 90%;
+    background-color: #ffb6c1;
+  }
+  button {
+    background-color: be8991;
+    border: 1px solid black;
+    color: black;
+    padding: 10px;
+  }
+</style>
