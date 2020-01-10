@@ -62,7 +62,9 @@
             " per hour.<br>The fixed cost is £ " +
             String(formVariables.fixed);
           $("#intro-info").append(introInfo);
-          $("#q1").append("£" + String(formVariables.q1) + "?");
+          $("#q1").append(
+			"Question 1: How much profit is made if "+ String(formVariables.q) + " are sold and the market supports a price p £" 
+			+ String(formVariables.q1) + "?");
           $("#q2").append(
             "Question 2: If the fixed costs increase to £" +
               String(formVariables.q2) +
@@ -119,9 +121,12 @@
           }
           if (allCorrect === 0)
             $("#feedback").text(function() {
+				return "Something is not correct";
+            });
+			else{
               alert("Yay hit refresh for another question");
               return "All correct!!!";
-            });
+			}
         });
       });
     </script>
@@ -135,8 +140,7 @@
       <div id="answer-section">
         <form>
           <p id="q1" class="question">
-            Question 1: How much profit is made if the market supports a price p
-            =
+            
           </p>
           <input type="text" name="q1" /><br />
           <p id="q2" class="question"></p>
